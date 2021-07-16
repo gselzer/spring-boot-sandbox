@@ -1,4 +1,4 @@
-package org.scijava.ops;
+package com.example.beanConsumer;
 
 
 public interface AppName {

@@ -1,4 +1,4 @@
-package org.scijava.ops;
+package com.example.beanProducer;
 
 import java.util.function.BiFunction;
 

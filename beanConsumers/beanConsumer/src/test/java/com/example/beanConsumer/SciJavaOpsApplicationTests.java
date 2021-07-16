@@ -1,4 +1,4 @@
-package org.scijava.ops;
+package com.example.beanConsumer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
