@@ -1,40 +1,54 @@
 
 package org.scijava.ops;
 
+import java.util.function.Supplier;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Primary;
 
 @SpringBootApplication
+@ImportResource("classpath:beans.xml")
 public class SciJavaOpsApplication implements CommandLineRunner {
 
 	private static ApplicationContext applicationContext;
 
 	@Autowired
-	private AppName appName;
+	private Supplier<Thing> appName;
 
 	@Bean
-	public AppName getAppName(@Value("${app.name}") String appName) {
+	public Supplier<Thing> getThing() {
+		return () -> new Thing();
+	}
 
-		return () -> appName;
+	@Bean
+	@Primary
+	public Supplier<Thing> getNumberThing() {
+		return () -> new NumberThing();
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		System.out.println("Application name blahity blah: " + appName.getName());
+		System.out.println("Application name blahity blah: " + appName);
 	}
 
 	public static void main(String[] args) {
-		applicationContext = SpringApplication.run(SciJavaOpsApplication.class, args);
-		String[] allBeanNames = applicationContext.getBeanDefinitionNames();
-		AppName a = applicationContext.getBean(AppName.class);
-		System.out.println(a.getName());
+		applicationContext = SpringApplication.run(SciJavaOpsApplication.class,
+			args);
 	}
 
+}
+
+class Thing {
+
+}
+
+class NumberThing extends Thing {
+	
 }
